@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wahl-O-Mat Herford 2025</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .content {
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer {
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Wahl-O-Mat Herford 2025</h1>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">Über uns</a>
+        <a href="#contact">Kontakt</a>
+    </nav>
+    <div class="content">
+        <section id="home">
+            <h2>Willkommen beim Wahl-O-Mat für Herford</h2>
+            <p>Hier können Sie herausfinden, welcher Kandidat am besten zu Ihnen passt. Beantworten Sie einfach die folgenden Fragen und sehen Sie sich die Ergebnisse an.</p>
+            <form id="wahlomat">
+                <div class="question">
+                    <p>1. Herford sollte bis 2030 klimaneutral werden.</p>
+                    <div class="answer">
+                        <input type="radio" name="q1" value="1"> zustimmen
+                    </div>
+                    <div class="answer">
+                        <input type="radio" name="q1" value="0.5"> eher zustimmen
+                    </div>
+                    <div class="answer">
+                        <input type="radio" name="q1" value="0"> neutral
+                    </div>
+                    <div class="answer">
+                        <input type="radio" name="q1" value="-0.5"> eher ablehnen
+                    </div>
+                    <div class="answer">
+                        <input type="radio" name="q1" value="-1"> ablehnen
+                    </div>
+                </div>
+                <!-- Fügen Sie hier weitere Fragen hinzu -->
+                <button type="button" onclick="calculateResult()">Ergebnis anzeigen</button>
+            </form>
+            <div class="result" id="result"></div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2025 Wahl-O-Mat Herford. Alle Rechte vorbehalten.</p>
+    </footer>
+    <script>
+        function calculateResult() {
+            const form = document.getElementById('wahlomat');
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '';
+
+            const answers = {
+                'Andreas Krömker (CDU)': [1, 0.5, 0, -0.5, -1],
+                'Bruno Obens (SPD)': [0.5, 1, 0.5, 0, -0.5],
+                'Christian Erbe (Grüne)': [1, 1, 0.5, 0, -1],
+                'Maxine-Pricilla Webster (Linke)': [-1, -0.5, 0, 0.5, 1],
+                'Berthold Stahn (FDP)': [0, 0.5, 1, 0.5, 0],
+                'Marc Kohrs (Bürger für Herford)': [0.5, 0, 0.5, 1, 0.5],
+                'Karin Jotzo (Herforder Bürgerbündnis)': [1, 0.5, 0, -0.5, -1],
+                'Frank Kohl (Die Partei)': [-1, -0.5, 0, 0.5, 1],
+                'Thomas Förster (AfD)': [-1, -0.5, 0, 0.5, 1],
+                'Frank Mattar (Union für Herford)': [0.5, 0, 0.5, 1, 0.5]
+            };
+
+            let userAnswers = [];
+            for (let i = 1; i <= 1; i++) {  // Anpassen, wenn mehr Fragen hinzugefügt werden
+                const selectedValue = form.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedValue) {
+                    userAnswers.push(parseFloat(selectedValue.value));
+                }
+            }
+
+            let scores = {};
+            for (const candidate in answers) {
+                let score = 0;
+                for (let i = 0; i < userAnswers.length; i++) {
+                    score += userAnswers[i] * answers[candidate][i];
+                }
+                scores[candidate] = score;
+            }
+
+            const sortedCandidates = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+            sortedCandidates.forEach(candidate => {
+                resultDiv.innerHTML += `<p>${candidate}: ${scores[candidate].toFixed(2)}</p>`;
+            });
+        }
+    </script>
+</body>
+</html>
